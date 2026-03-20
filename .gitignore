@@ -1,0 +1,12 @@
+.env
+__pycache__/
+*.pyc
+.pytest_cache/
+data/decision_log.jsonl
+data/reports/
+data/market_contexts/
+!data/market_contexts/.gitkeep
+data/performance/
+!data/performance/.gitkeep
+data/runs/
+!data/runs/.gitkeep
