@@ -1,8 +1,8 @@
 from __future__ import annotations
 
+import json
 from datetime import datetime, timezone
 from itertools import zip_longest
-import json
 from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError, URLError
@@ -37,9 +37,7 @@ def write_market_context_files(
     )
     run_output_path.parent.mkdir(parents=True, exist_ok=True)
     context_document["shared_reference_files"]["market_context_reference"] = str(latest_path)
-    context_document["shared_reference_files"]["market_context_snapshot_reference"] = str(
-        shared_snapshot_path
-    )
+    context_document["shared_reference_files"]["market_context_snapshot_reference"] = str(shared_snapshot_path)
     context_document["shared_reference_files"]["run_market_context_reference"] = str(run_output_path)
     payload = json.dumps(context_document, indent=2, sort_keys=True)
     run_output_path.write_text(payload, encoding="utf-8")
@@ -194,11 +192,7 @@ def summarize_order_book(payload: dict[str, Any]) -> dict[str, Any]:
 
     best_bid = sorted_bids[0]["price"] if sorted_bids else None
     best_ask = sorted_asks[0]["price"] if sorted_asks else None
-    mid_price = (
-        round((best_bid + best_ask) / 2, 6)
-        if best_bid is not None and best_ask is not None
-        else None
-    )
+    mid_price = round((best_bid + best_ask) / 2, 6) if best_bid is not None and best_ask is not None else None
     spread = round(best_ask - best_bid, 6) if best_bid is not None and best_ask is not None else None
 
     return {
@@ -234,9 +228,7 @@ def summarize_price_history(payload: dict[str, Any]) -> dict[str, Any]:
 
     history = payload.get("history") or []
     points = [
-        {"t": int(point["t"]), "p": _safe_float(point["p"])}
-        for point in history
-        if "t" in point and "p" in point
+        {"t": int(point["t"]), "p": _safe_float(point["p"])} for point in history if "t" in point and "p" in point
     ]
     if not points:
         return {

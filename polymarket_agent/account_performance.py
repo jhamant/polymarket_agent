@@ -1,19 +1,18 @@
 from __future__ import annotations
 
 import csv
-from datetime import datetime, timezone
 import io
 import json
-from pathlib import Path
 import statistics
+import zipfile
+from datetime import datetime, timezone
+from pathlib import Path
 from typing import Any
 from urllib.error import HTTPError, URLError
 from urllib.parse import urlencode
 from urllib.request import Request, urlopen
-import zipfile
 
 from .family_classifier import build_text_haystack, classify_market_family
-
 
 POSITION_FIELDNAMES = [
     "status",
@@ -84,9 +83,32 @@ TRADE_LEDGER_FIELDNAMES = [
 
 EXTRA_PERFORMANCE_FAMILIES = (
     (
-        "crypto",
+        "crypto_onchain",
         "Crypto and on-chain markets",
-        ("btc", "bitcoin", "eth", "ethereum", "solana", "crypto", "token", "airdrop"),
+        (
+            "btc",
+            "bitcoin",
+            "eth",
+            "ethereum",
+            "solana",
+            "sol",
+            "crypto",
+            "token",
+            "airdrop",
+            "snapshot",
+            "blockchain",
+            "on-chain",
+            "defi",
+            "nft",
+            "dao",
+            "governance",
+            "staking",
+            "listing",
+            "dex",
+            "uniswap",
+            "halving",
+            "memecoin",
+        ),
     ),
     (
         "politics",
@@ -165,12 +187,8 @@ def update_account_performance(
         },
         max_pages=max_pages,
     )
-    position_value = _safe_fetch_json(
-        f"{data_api_base.rstrip('/')}/value?{urlencode({'user': proxy_wallet})}"
-    )
-    traded_summary = _safe_fetch_json(
-        f"{data_api_base.rstrip('/')}/traded?{urlencode({'user': proxy_wallet})}"
-    )
+    position_value = _safe_fetch_json(f"{data_api_base.rstrip('/')}/value?{urlencode({'user': proxy_wallet})}")
+    traded_summary = _safe_fetch_json(f"{data_api_base.rstrip('/')}/traded?{urlencode({'user': proxy_wallet})}")
     accounting_snapshot = _download_accounting_snapshot(data_api_base, proxy_wallet)
 
     trade_ledger_rows, trade_rollups = _build_trade_ledger_rows(trades)
@@ -556,9 +574,7 @@ def _build_position_row(
         "negative_risk": bool(position.get("negativeRisk", False)),
         "first_trade_at_utc": _timestamp_to_iso_from_unix(first_trade_ts) if first_trade_ts else "",
         "last_trade_at_utc": _timestamp_to_iso_from_unix(last_trade_ts) if last_trade_ts else "",
-        "closed_at_utc": _timestamp_to_iso_from_unix(position.get("timestamp"))
-        if position.get("timestamp")
-        else "",
+        "closed_at_utc": _timestamp_to_iso_from_unix(position.get("timestamp")) if position.get("timestamp") else "",
         "days_held": _days_held(first_trade_ts, position.get("timestamp")),
         "trade_count": int(aggregate.get("trade_count", 0)),
         "buy_trade_count": int(aggregate.get("buy_trade_count", 0)),
@@ -625,9 +641,7 @@ def _build_family_rollup(position_rows: list[dict[str, Any]]) -> list[dict[str, 
     result = []
     for family in by_family.values():
         closed_count = family["closed_count"]
-        family["closed_win_rate"] = round(
-            100 * family["wins_closed"] / closed_count, 2
-        ) if closed_count else None
+        family["closed_win_rate"] = round(100 * family["wins_closed"] / closed_count, 2) if closed_count else None
         family["reported_realized_pnl"] = round(family["reported_realized_pnl"], 6)
         family["open_mark_to_market_pnl_est"] = round(family["open_mark_to_market_pnl_est"], 6)
         family["estimated_total_pnl"] = round(family["estimated_total_pnl"], 6)
@@ -653,14 +667,10 @@ def _build_summary_metrics(
     accounting_snapshot: dict[str, Any],
 ) -> dict[str, Any]:
     closed_realized_values = [
-        _safe_float(row["reported_realized_pnl"])
-        for row in position_rows
-        if row["status"] == "CLOSED"
+        _safe_float(row["reported_realized_pnl"]) for row in position_rows if row["status"] == "CLOSED"
     ]
     open_mtm_values = [
-        _safe_float(row["open_mark_to_market_pnl_est"])
-        for row in position_rows
-        if row["status"] == "OPEN"
+        _safe_float(row["open_mark_to_market_pnl_est"]) for row in position_rows if row["status"] == "OPEN"
     ]
     estimated_total_values = [_safe_float(row["estimated_total_pnl"]) for row in position_rows]
     equity_row = (accounting_snapshot.get("equity") or [{}])[0] if accounting_snapshot else {}

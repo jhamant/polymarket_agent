@@ -1,0 +1,260 @@
+{
+  "scanned_at": "2026-03-26T00:08:56.918330+00:00",
+  "total_fetched": 200,
+  "total_scored_above_min": 10,
+  "markets": [
+    {
+      "slug": "will-italy-qualify-for-the-2026-fifa-world-cup",
+      "question": "Will Italy qualify for the 2026 FIFA World Cup?",
+      "end_date": "2026-04-12T00:00:00Z",
+      "yes_price": 0.64,
+      "no_price": 0.36,
+      "liquidity": 21580.5,
+      "volume_24hr": 6911.74,
+      "spread": 0.02,
+      "days_to_expiry": 17.0,
+      "family_key": "sports_official_data",
+      "family_label": "Sports markets with official data",
+      "family_keywords_matched": [
+        "fifa",
+        "playoffs",
+        "qualify",
+        "world cup"
+      ],
+      "scores": {
+        "liquidity": 25.0,
+        "spread": 25.0,
+        "timing": 22.6,
+        "volume": 25.0,
+        "total": 97.6
+      },
+      "flags": []
+    },
+    {
+      "slug": "will-sweden-qualify-for-the-2026-fifa-world-cup",
+      "question": "Will Sweden qualify for the 2026 FIFA World Cup?",
+      "end_date": "2026-04-12T00:00:00Z",
+      "yes_price": 0.325,
+      "no_price": 0.675,
+      "liquidity": 13204.97,
+      "volume_24hr": 2476.14,
+      "spread": 0.01,
+      "days_to_expiry": 17.0,
+      "family_key": "sports_official_data",
+      "family_label": "Sports markets with official data",
+      "family_keywords_matched": [
+        "fifa",
+        "playoffs",
+        "qualify",
+        "world cup"
+      ],
+      "scores": {
+        "liquidity": 25.0,
+        "spread": 25.0,
+        "timing": 22.6,
+        "volume": 25.0,
+        "total": 97.6
+      },
+      "flags": []
+    },
+    {
+      "slug": "will-poland-qualify-for-the-2026-fifa-world-cup",
+      "question": "Will Poland qualify for the 2026 FIFA World Cup?",
+      "end_date": "2026-04-12T00:00:00Z",
+      "yes_price": 0.365,
+      "no_price": 0.635,
+      "liquidity": 13648.45,
+      "volume_24hr": 2413.07,
+      "spread": 0.01,
+      "days_to_expiry": 17.0,
+      "family_key": "sports_official_data",
+      "family_label": "Sports markets with official data",
+      "family_keywords_matched": [
+        "fifa",
+        "playoffs",
+        "qualify",
+        "world cup"
+      ],
+      "scores": {
+        "liquidity": 25.0,
+        "spread": 25.0,
+        "timing": 22.6,
+        "volume": 25.0,
+        "total": 97.6
+      },
+      "flags": []
+    },
+    {
+      "slug": "will-ukraine-qualify-for-the-2026-fifa-world-cup",
+      "question": "Will Ukraine qualify for the 2026 FIFA World Cup?",
+      "end_date": "2026-04-12T00:00:00Z",
+      "yes_price": 0.26,
+      "no_price": 0.74,
+      "liquidity": 6895.95,
+      "volume_24hr": 3502.39,
+      "spread": 0.02,
+      "days_to_expiry": 17.0,
+      "family_key": "sports_official_data",
+      "family_label": "Sports markets with official data",
+      "family_keywords_matched": [
+        "fifa",
+        "playoffs",
+        "qualify",
+        "world cup"
+      ],
+      "scores": {
+        "liquidity": 25.0,
+        "spread": 25.0,
+        "timing": 22.6,
+        "volume": 25.0,
+        "total": 97.6
+      },
+      "flags": []
+    },
+    {
+      "slug": "bitboy-convicted",
+      "question": "BitBoy convicted?",
+      "end_date": "2026-03-31T12:00:00Z",
+      "yes_price": 0.0895,
+      "no_price": 0.9105,
+      "liquidity": 10358.49,
+      "volume_24hr": 20113.85,
+      "spread": 0.001,
+      "days_to_expiry": 5.5,
+      "family_key": "regulatory_legal",
+      "family_label": "Regulatory and legal markets",
+      "family_keywords_matched": [
+        "convicted",
+        "court",
+        "judge"
+      ],
+      "scores": {
+        "liquidity": 25.0,
+        "spread": 25.0,
+        "timing": 5.7,
+        "volume": 25.0,
+        "total": 80.7
+      },
+      "flags": []
+    },
+    {
+      "slug": "russia-ukraine-ceasefire-before-gta-vi-554",
+      "question": "Russia-Ukraine Ceasefire before GTA VI?",
+      "end_date": "2026-07-31T12:00:00Z",
+      "yes_price": 0.56,
+      "no_price": 0.44,
+      "liquidity": 103760.9,
+      "volume_24hr": 3618.31,
+      "spread": 0.02,
+      "days_to_expiry": 127.5,
+      "family_key": "sports_official_data",
+      "family_label": "Sports markets with official data",
+      "family_keywords_matched": [
+        "qualify"
+      ],
+      "scores": {
+        "liquidity": 25.0,
+        "spread": 25.0,
+        "timing": 2.0,
+        "volume": 25.0,
+        "total": 77.0
+      },
+      "flags": []
+    },
+    {
+      "slug": "new-rhianna-album-before-gta-vi-926",
+      "question": "New Rihanna Album before GTA VI?",
+      "end_date": "2026-07-31T12:00:00Z",
+      "yes_price": 0.605,
+      "no_price": 0.395,
+      "liquidity": 32024.17,
+      "volume_24hr": 1169.31,
+      "spread": 0.01,
+      "days_to_expiry": 127.5,
+      "family_key": "misc",
+      "family_label": "Misc or unclear markets",
+      "family_keywords_matched": [],
+      "scores": {
+        "liquidity": 25.0,
+        "spread": 25.0,
+        "timing": 2.0,
+        "volume": 25.0,
+        "total": 77.0
+      },
+      "flags": []
+    },
+    {
+      "slug": "new-playboi-carti-album-before-gta-vi-421",
+      "question": "New Playboi Carti Album before GTA VI?",
+      "end_date": "2026-07-31T12:00:00Z",
+      "yes_price": 0.67,
+      "no_price": 0.33,
+      "liquidity": 26770.59,
+      "volume_24hr": 751.58,
+      "spread": 0.02,
+      "days_to_expiry": 127.5,
+      "family_key": "misc",
+      "family_label": "Misc or unclear markets",
+      "family_keywords_matched": [],
+      "scores": {
+        "liquidity": 25.0,
+        "spread": 25.0,
+        "timing": 2.0,
+        "volume": 25.0,
+        "total": 77.0
+      },
+      "flags": []
+    },
+    {
+      "slug": "will-jesus-christ-return-before-gta-vi-665",
+      "question": "Will Jesus Christ return before GTA VI?",
+      "end_date": "2026-07-31T12:00:00Z",
+      "yes_price": 0.485,
+      "no_price": 0.515,
+      "liquidity": 759197.94,
+      "volume_24hr": 5976.5,
+      "spread": 0.01,
+      "days_to_expiry": 127.5,
+      "family_key": "misc",
+      "family_label": "Misc or unclear markets",
+      "family_keywords_matched": [],
+      "scores": {
+        "liquidity": 25.0,
+        "spread": 25.0,
+        "timing": 2.0,
+        "volume": 25.0,
+        "total": 77.0
+      },
+      "flags": []
+    },
+    {
+      "slug": "trump-out-as-president-before-gta-vi-846",
+      "question": "Trump out as President before GTA VI?",
+      "end_date": "2026-07-31T12:00:00Z",
+      "yes_price": 0.535,
+      "no_price": 0.465,
+      "liquidity": 109008.87,
+      "volume_24hr": 2191.85,
+      "spread": 0.01,
+      "days_to_expiry": 127.5,
+      "family_key": "sports_official_data",
+      "family_label": "Sports markets with official data",
+      "family_keywords_matched": [
+        "qualify"
+      ],
+      "scores": {
+        "liquidity": 25.0,
+        "spread": 25.0,
+        "timing": 2.0,
+        "volume": 25.0,
+        "total": 77.0
+      },
+      "flags": []
+    }
+  ],
+  "family_summary": {
+    "sports_official_data": 6,
+    "regulatory_legal": 1,
+    "misc": 3
+  }
+}

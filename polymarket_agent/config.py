@@ -1,9 +1,8 @@
 from __future__ import annotations
 
+import os
 from dataclasses import dataclass
 from pathlib import Path
-import os
-
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -29,6 +28,8 @@ class Settings:
     account_address: str | None
     performance_max_pages: int
     codex_model: str | None
+    memory_log_path: Path
+    risk_limits_path: Path
 
 
 def get_settings() -> Settings:
@@ -43,15 +44,9 @@ def get_settings() -> Settings:
         performance_dir=data_dir / "performance",
         strategy_path=ROOT / "docs" / "strategy.md",
         history_path=data_dir / "decision_log.jsonl",
-        gamma_api_base=os.getenv(
-            "POLYMARKET_GAMMA_API_BASE", "https://gamma-api.polymarket.com"
-        ),
-        data_api_base=os.getenv(
-            "POLYMARKET_DATA_API_BASE", "https://data-api.polymarket.com"
-        ),
-        clob_api_base=os.getenv(
-            "POLYMARKET_CLOB_API_BASE", "https://clob.polymarket.com"
-        ),
+        gamma_api_base=os.getenv("POLYMARKET_GAMMA_API_BASE", "https://gamma-api.polymarket.com"),
+        data_api_base=os.getenv("POLYMARKET_DATA_API_BASE", "https://data-api.polymarket.com"),
+        clob_api_base=os.getenv("POLYMARKET_CLOB_API_BASE", "https://clob.polymarket.com"),
         market_limit=int(os.getenv("POLYMARKET_MARKET_LIMIT", "10")),
         position_size_usd=float(os.getenv("POLYMARKET_POSITION_SIZE_USD", "5")),
         live_trading=os.getenv("POLYMARKET_LIVE_TRADING", "false").lower() == "true",
@@ -59,4 +54,6 @@ def get_settings() -> Settings:
         account_address=os.getenv("POLYMARKET_ACCOUNT_ADDRESS") or None,
         performance_max_pages=int(os.getenv("POLYMARKET_PERFORMANCE_MAX_PAGES", "20")),
         codex_model=os.getenv("POLYMARKET_CODEX_MODEL") or "gpt-5.4-mini",
+        memory_log_path=data_dir / "memory" / "memory_log.jsonl",
+        risk_limits_path=ROOT / "risk_limits.json",
     )

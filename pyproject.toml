@@ -3,8 +3,35 @@ name = "polymarket-agent"
 version = "0.1.0"
 description = "Bare-bones scaffold for a Polymarket trading agent"
 requires-python = ">=3.11"
+dependencies = [
+    "py-clob-client>=0.20.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.0",
+    "ruff>=0.4",
+]
 
 [build-system]
 requires = ["setuptools>=68"]
 build-backend = "setuptools.build_meta"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = ["-v", "--tb=short"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 120
+
+[tool.ruff.lint]
+# E: pycodestyle errors, F: pyflakes, I: isort, W: pycodestyle warnings
+select = ["E", "F", "I", "W"]
+ignore = [
+    "E501",   # line too long — ruff format handles wrapping; don't double-flag
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["polymarket_agent"]
 

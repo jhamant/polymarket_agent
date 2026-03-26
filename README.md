@@ -1,119 +1,98 @@
-# Polymarket Agent MVP
+# Polymarket Agent
 
-Bare-bones scaffold for a Polymarket trading workflow that is being narrowed toward a document-first Codex CLI architecture.
+[![CI](https://github.com/jhamant/polymarket_agent/actions/workflows/ci.yml/badge.svg)](https://github.com/jhamant/polymarket_agent/actions/workflows/ci.yml)
 
-## Direction
+A document-first Polymarket trading agent. Python stays thin; every decision
+is made by an AI agent reading and writing files on disk. The filesystem is
+the contract between stages.
 
-The intended MVP is no longer "Python runs the agent logic internally."
+## Architecture
 
-The intended MVP is:
+See [docs/architecture.md](docs/architecture.md) for the full pipeline design,
+development sequence, and gap tracking.
 
-- Python stays thin and boring
-- Codex CLI performs each agent step
-- every step reads prior artifacts from disk
-- every step writes or updates a document for the next step
-- the filesystem is the contract between agents
+**Pipeline summary:**
 
-This keeps the code small, makes every decision auditable, and avoids building a heavy in-process agent framework too early.
+```
+Stage 0   Market selection + risk check (Python, no AI)
+Stage 1   Market data context
+Stage 2   Account performance
+Stage 3   Strategy update
+Stage 4   Quality gate
+Stage 5   Rules resolution + structural alpha
+Stage 6–7 Specialist research → assessor → reviewer
+Stage 8   Execution planning
+Stage 9   Live order placement (requires POLYMARKET_LIVE_TRADING=true)
+Stage 10  Reconciliation + memory
+```
 
-## Current Architecture
-
-The repo now runs a document-first Codex CLI workflow:
-
-1. A thin runner selects the market and creates a run folder.
-2. A Codex CLI call using `agents/market_data.md` writes the shared market context file.
-3. A Codex CLI call using `agents/performance_data.md` updates account performance CSVs and summary JSON.
-4. A Codex CLI call using `agents/performance_analyst.md` updates `docs/strategy.md`.
-5. Separate Codex CLI calls using `agents/research_*.md` write specialist research memos.
-6. A Codex CLI call using `agents/researcher.md` aggregates those specialist memos.
-7. A Codex CLI call using `agents/assessor.md` writes the probability and sizing assessment.
-8. A Codex CLI call using `agents/reviewer.md` writes the final pre-trade review and approval or block decision.
-9. The runner writes dry-run execution and post-action documents.
-
-The important constraint is that later steps reference files, not in-memory Python objects.
-
-## Document Contract
-
-Each run now converges toward a stable artifact set such as:
-
-- `data/runs/<timestamp>-<slug>/00-request.md`
-- `data/runs/<timestamp>-<slug>/00-history.md`
-- `data/runs/<timestamp>-<slug>/01-market-context.json`
-- `data/runs/<timestamp>-<slug>/02-performance-summary.json`
-- `data/runs/<timestamp>-<slug>/03-strategy.md`
-- `data/runs/<timestamp>-<slug>/04-specialist-*.md`
-- `data/runs/<timestamp>-<slug>/05-research.md`
-- `data/runs/<timestamp>-<slug>/06-assessment.md`
-- `data/runs/<timestamp>-<slug>/06-assessment.json`
-- `data/runs/<timestamp>-<slug>/07-review.md`
-- `data/runs/<timestamp>-<slug>/07-review.json`
-- `data/runs/<timestamp>-<slug>/08-execution.md`
-- `data/runs/<timestamp>-<slug>/09-post-action.md`
-- `docs/strategy.md`
-- `data/decision_log.jsonl`
-
-Some account-level artifacts should remain shared across runs:
-
-- `data/performance/<account>/account_position_performance.csv`
-- `data/performance/<account>/account_trade_ledger.csv`
-- `data/performance/<account>/latest_summary.json`
-
-## Current Repo Status
-
-The current codebase already has:
-
-- agent definitions stored in Markdown
-- Polymarket market intake
-- market context artifacts
-- account performance CSV generation
-- a continuously updated strategy document
-- a thin Codex CLI runner
-
-The old in-process pipeline has been removed. The active path is the file-driven runner.
-
-## Current Dry Run
-
-Run the workflow with:
+## Quickstart
 
 ```bash
-python3 main.py --market-slug bitboy-convicted --estimated-probability 0.32
+# Dry-run: scan markets, auto-select best, run full pipeline
+python3 main.py
+
+# Scan and print ranked quality table
+python3 main.py scan-markets --limit 200 --top 20 --print-table
+
+# Batch: assess up to 5 markets in one session
+python3 main.py batch-run --max-markets 5
+
+# Monitor open positions
+python3 main.py monitor-positions --output data/performance/monitor.json
 ```
 
-Useful flags:
+Run `python3 main.py --help` for all options.
+
+## Development Setup
 
 ```bash
-python3 main.py --help
+pip install -e ".[dev]"
 ```
 
-To stop after a specific stage while debugging:
+This installs the package in editable mode plus `pytest` and `ruff`.
+
+## Testing
 
 ```bash
-python3 main.py --market-slug bitboy-convicted --stop-after performance_analyst
+pytest
 ```
 
-## Project Layout
+77 unit tests covering: `risk_limits`, `place_order`, `position_monitor`,
+`structural_alpha`. All tests use mocks — no live API calls required.
 
-```text
-agents/                  Markdown definitions for each agent role
-data/                    Runtime artifacts, history, reports, and performance output
-docs/                    MVP map, strategy, and next-step planning
-polymarket_agent/        Thin Python package and Codex runner helpers
-main.py                  Entrypoint for the Codex-driven workflow
+## Linting
+
+```bash
+ruff check .        # lint
+ruff format .       # format
 ```
 
-## What Is Intentionally Deferred
+The CI pipeline runs both on every push and pull request.
 
-- live order placement through the CLOB client
-- broad multi-family autonomous trading
-- deep Python-side agent abstractions
-- any non-auditable decision path
+## Environment Variables
 
-## Official References
+| Variable | Required | Default | Purpose |
+|----------|----------|---------|---------|
+| `POLYMARKET_LIVE_TRADING` | No | `false` | Enable live CLOB order placement |
+| `POLYMARKET_PRIVATE_KEY` | If live | — | EVM wallet key (0x-prefixed hex) |
+| `POLYMARKET_MARKET_LIMIT` | No | `10` | Markets fetched per scan |
+| `POLYMARKET_POSITION_SIZE_USD` | No | `5` | Default order size |
+| `POLYMARKET_MARKET_SLUG` | No | — | Override auto-selection (testing only) |
+| `POLYMARKET_ACCOUNT_ADDRESS` | No | — | Wallet address for performance data |
+| `FRED_API_KEY` | No | — | Enables `evidence-macro` FRED connector |
+| `COURTLISTENER_API_TOKEN` | No | — | Enables `evidence-legal` connector |
 
-- Gamma Markets API overview: <https://docs.polymarket.com/developers/gamma-markets-api/overview>
-- CLOB overview: <https://docs.polymarket.com/developers/CLOB/introduction>
-- Official Python client: <https://github.com/Polymarket/py-clob-client>
+Copy `.env.example` (if present) to `.env` and fill in secrets. Never commit `.env`.
 
-## Planning Docs
+## Risk Limits
 
-Read [`docs/mvp-map.md`](./docs/mvp-map.md) for the updated staged build plan and [`docs/next-step.md`](./docs/next-step.md) for the next step after the runner rearchitecture.
+Edit `risk_limits.json` to set portfolio-level controls. The runner checks these
+before any AI stage runs and aborts with structured violations if limits are
+breached. See the schema in [polymarket_agent/risk_limits.py](polymarket_agent/risk_limits.py).
+
+## References
+
+- Gamma Markets API: <https://docs.polymarket.com/developers/gamma-markets-api/overview>
+- CLOB API: <https://docs.polymarket.com/developers/CLOB/introduction>
+- py-clob-client: <https://github.com/Polymarket/py-clob-client>

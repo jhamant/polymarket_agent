@@ -1,0 +1,16 @@
+{
+  "_comment": "Risk limits for the Polymarket agent. All values in USD. Remove a field to disable that limit.",
+  "max_open_positions": 5,
+  "max_position_size_usd": 50,
+  "max_exposure_per_family_usd": 100,
+  "daily_loss_limit_usd": 50,
+  "max_exposure_total_usd": 250,
+  "family_caps": {
+    "crypto_onchain": 100,
+    "sports_official_data": 100,
+    "regulatory_legal": 50,
+    "macro_releases": 75,
+    "weather_disaster": 50,
+    "misc": 25
+  }
+}

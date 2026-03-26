@@ -47,8 +47,12 @@ def write_history_snapshot(
     store: HistoryStore,
     limit: int,
     output_path: Path,
+    memory_section: str = "",
 ) -> str:
     summary = summarize_history(store.load_recent(limit=limit))
+    text = summary
+    if memory_section:
+        text += "\n\n## Family Memory Entries\n\n" + memory_section
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    output_path.write_text(summary + "\n", encoding="utf-8")
+    output_path.write_text(text + "\n", encoding="utf-8")
     return summary

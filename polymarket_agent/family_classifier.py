@@ -2,8 +2,42 @@ from __future__ import annotations
 
 import re
 
-
 SPECIALIST_KEYWORDS: tuple[tuple[str, str, tuple[str, ...]], ...] = (
+    (
+        "crypto_onchain",
+        "Crypto and on-chain markets",
+        (
+            "bitcoin",
+            "btc",
+            "ethereum",
+            "eth",
+            "solana",
+            "sol",
+            "crypto",
+            "token",
+            "airdrop",
+            "snapshot",
+            "blockchain",
+            "on-chain",
+            "defi",
+            "nft",
+            "dao",
+            "governance",
+            "staking",
+            "listing",
+            "coinbase",
+            "binance",
+            "coinmarketcap",
+            "coingecko",
+            "dex",
+            "uniswap",
+            "wrapped",
+            "mainnet",
+            "testnet",
+            "halving",
+            "memecoin",
+        ),
+    ),
     (
         "regulatory_legal",
         "Regulatory and legal markets",
@@ -100,9 +134,7 @@ def classify_market_family(*parts: str) -> tuple[str, str, list[str]]:
     haystack = build_text_haystack(*parts)
     ranked: list[tuple[int, str, str, list[str]]] = []
     for family_key, family_label, keywords in SPECIALIST_KEYWORDS:
-        matched = sorted(
-            {keyword for keyword in keywords if re.search(rf"\b{re.escape(keyword)}\b", haystack)}
-        )
+        matched = sorted({keyword for keyword in keywords if re.search(rf"\b{re.escape(keyword)}\b", haystack)})
         ranked.append((len(matched), family_key, family_label, matched))
 
     ranked.sort(key=lambda item: (item[0], item[1]), reverse=True)

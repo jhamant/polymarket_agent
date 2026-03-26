@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from datetime import datetime, timezone
 import json
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -113,24 +113,24 @@ Updated: {generated_at}
 
 ## References
 
-- performance position CSV: {reference_files.get('performance_position_csv_reference')}
-- performance trade ledger CSV: {reference_files.get('performance_trade_ledger_csv_reference')}
-- performance summary JSON: {reference_files.get('performance_summary_reference')}
+- performance position CSV: {reference_files.get("performance_position_csv_reference")}
+- performance trade ledger CSV: {reference_files.get("performance_trade_ledger_csv_reference")}
+- performance summary JSON: {reference_files.get("performance_summary_reference")}
 
 ## Performance Snapshot
 
-- configured: {summary_metrics.get('configured')}
-- resolved proxy wallet: {summary_metrics.get('resolved_proxy_wallet')}
-- trade count: {summary_metrics.get('trade_count')}
-- open positions: {summary_metrics.get('open_positions_count')}
-- closed positions: {summary_metrics.get('closed_positions_count')}
-- estimated total pnl: {summary_metrics.get('estimated_total_pnl')}
-- closed realized pnl total: {summary_metrics.get('closed_realized_pnl_total')}
-- open mark-to-market pnl total: {summary_metrics.get('open_mark_to_market_pnl_total')}
-- closed win rate: {summary_metrics.get('closed_win_rate')}
-- equity: {summary_metrics.get('equity')}
-- cash balance: {summary_metrics.get('cash_balance')}
-- positions value: {summary_metrics.get('positions_value')}
+- configured: {summary_metrics.get("configured")}
+- resolved proxy wallet: {summary_metrics.get("resolved_proxy_wallet")}
+- trade count: {summary_metrics.get("trade_count")}
+- open positions: {summary_metrics.get("open_positions_count")}
+- closed positions: {summary_metrics.get("closed_positions_count")}
+- estimated total pnl: {summary_metrics.get("estimated_total_pnl")}
+- closed realized pnl total: {summary_metrics.get("closed_realized_pnl_total")}
+- open mark-to-market pnl total: {summary_metrics.get("open_mark_to_market_pnl_total")}
+- closed win rate: {summary_metrics.get("closed_win_rate")}
+- equity: {summary_metrics.get("equity")}
+- cash balance: {summary_metrics.get("cash_balance")}
+- positions value: {summary_metrics.get("positions_value")}
 
 ## What Is Working
 
@@ -142,7 +142,7 @@ Updated: {generated_at}
 
 ## Strategy Directives
 
-{chr(10).join('- ' + directive for directive in directives)}
+{chr(10).join("- " + directive for directive in directives)}
 """
 
 
